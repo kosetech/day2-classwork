@@ -1,13 +1,25 @@
-# Stage 1: Build the app
-FROM node:alpine as build
+#stage 1 - Lets build the app
+
+FROM node:alpine as build 
+
 WORKDIR /app
-COPY package*.json ./
+
+COPY package*.json./ dest
+
 RUN npm install
-COPY . .
+
+COPY . . 
+
 RUN npm run build
 
-# Stage 2: Serve with Nginx
+#stage 2 - Render app with nginx
+
+
 FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
+
+COPY --from=build /app/dist/usr/share/nginx/html dest
+
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+
+CMD [ "nginx", "-g", "daemon off;" ]
+
